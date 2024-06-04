@@ -3,11 +3,19 @@ class BookRepository {
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
 
-    async addBook() {
+    async addBook({}) {
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
 
-    async checkBorrowedBooks() {
+    async checkBorrowedBooks(bookid) {
+        throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+    }
+
+    async countBorrowedBooksByMember(memberid, bookid) {
+        throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+    }
+
+    async verifyBorrowedBooks(bookid) {
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
 }

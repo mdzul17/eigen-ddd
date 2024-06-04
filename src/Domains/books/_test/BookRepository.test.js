@@ -6,6 +6,8 @@ describe("BookRepository", () => {
 
         await expect(bookRepository.addBook({})).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
         await expect(bookRepository.getBooks()).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
-        await expect(bookRepository.checkBorrowedBooks()).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+        await expect(bookRepository.checkBorrowedBooks("")).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+        await expect(bookRepository.countBorrowedBooksByMember("","")).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+        await expect(bookRepository.verifyBorrowedBooks("")).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     })
 })
