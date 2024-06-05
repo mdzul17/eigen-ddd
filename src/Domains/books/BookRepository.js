@@ -13,9 +13,7 @@ class BookRepository {
 
     async borrowBook(memberid, payload){
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
-    }
-
-    
+    }   
     async returnsBook(memberid, payload) {
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
@@ -25,6 +23,12 @@ class BookRepository {
     }
 
     async checkBorrowingDuration(memberid, payload) {
+        throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+    }
+    async getCountAllBooks() {
+        throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+    }
+    async getCountBorrowedBooks() {
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
 }

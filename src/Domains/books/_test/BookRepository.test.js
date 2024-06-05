@@ -11,5 +11,7 @@ describe("BookRepository", () => {
         await expect(bookRepository.borrowBook("",{})).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
         await expect(bookRepository.returnsBook("",{})).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
         await expect(bookRepository.checkBorrowingDuration("",{})).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+        await expect(bookRepository.getCountAllBooks()).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+        await expect(bookRepository.getCountBorrowedBooks()).rejects.toThrowError("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     })
 })

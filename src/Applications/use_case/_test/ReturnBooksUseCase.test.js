@@ -3,7 +3,7 @@ const BookRepository = require("../../../Domains/books/BookRepository")
 const ReturnBooksUseCase = require("../ReturnBooksUseCase")
 
 describe("ReturnBooksUseCase", () => {
-    it("should orchestrating the borrow book action correctly", async() => {
+    it("should orchestrating the returning book action correctly", async() => {
         const bookPayload = [
             {
                 code: "JK-45",
