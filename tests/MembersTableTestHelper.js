@@ -23,7 +23,8 @@ const MembersTableTestHelper = {
       values: [code],
     };
 
-    await pool.query(query);
+    const res = await pool.query(query);
+    return res.rows[0]
   },
 
   async cleanTable() {

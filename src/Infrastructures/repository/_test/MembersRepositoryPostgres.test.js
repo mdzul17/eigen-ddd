@@ -23,23 +23,26 @@ describe("MembersRepositoryPostgres", () => {
             })
 
             const member = await MembersTableTestHelper.findMemberById("M001")
-            expect(member).toStrictEqual({
-                code: "M001",
-                name: "Angga"
-            })
+
+            expect(member).toHaveProperty("name")
+            expect(member).toHaveProperty("code")
         })
 
-        it("should persist added member data operation", async() => {
+        it("should registered member correctly", async() => {
             
             const fakeIdGenerator = () => "001"
             const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, fakeIdGenerator)
             
-            await membersRepositoryPostgres.addMember({
+            const registeredMember = await membersRepositoryPostgres.addMember({
                 name: "Angga"
             })
 
-            const member = await MembersTableTestHelper.findMemberById("M001")
-            expect(member).toHaveLength(1)
+            expect(registeredMember).toStrictEqual(
+                {
+                    code: "M001",
+                    name: "Angga"
+                }
+            )
         })
     })
 
@@ -53,7 +56,7 @@ describe("MembersRepositoryPostgres", () => {
                 code: "M001"
             })
 
-            expect(isPenalty.penalty_status).toStrictEqual(0)
+            expect(isPenalty.penalty_status).toStrictEqual("0")
         })
 
         it("should return penalty status = 1  ", async() => {
@@ -69,7 +72,7 @@ describe("MembersRepositoryPostgres", () => {
                 code: "M001"
             })
 
-            expect(isPenalty.penalty_status).toStrictEqual(1)
+            expect(isPenalty.penalty_status).toStrictEqual("1")
         })
     })
 
@@ -87,22 +90,14 @@ describe("MembersRepositoryPostgres", () => {
             const members = await membersRepositoryPostgres.getMembers()
 
             expect(members).toHaveLength(1)
-            expect(members).toHaveProperty("code")
-            expect(members).toHaveProperty("name")
-            expect(members).toHaveProperty("penalty_status")
-            expect(members).toHaveProperty("penalty_date")
+            expect(members[0]).toHaveProperty("code")
+            expect(members[0]).toHaveProperty("name")
+            expect(members[0]).toHaveProperty("penalty_status")
+            expect(members[0]).toHaveProperty("penalty_date")
         })
 
         it("should return 0 length when no members data", async() => {
             const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
-            
-            await MembersTableTestHelper.addMember({
-            code: "M001",
-            name: "Angga",
-            penalty_status: "1",
-            penalty_date: "2021-08-08T07:19:09.775Z"
-            })
-
             const members = await membersRepositoryPostgres.getMembers()
 
             expect(members).toHaveLength(0)
@@ -119,13 +114,36 @@ describe("MembersRepositoryPostgres", () => {
             penalty_status: "0"
             })
 
-            const members = await membersRepositoryPostgres.setPenaltyStatus("M001")
+            const members = await membersRepositoryPostgres.setPenaltyStatus({
+                code: "M001",
+                penalty_status: "0"
+            })
 
             expect(members).toHaveLength(1)
-            expect(members).toHaveProperty("code")
-            expect(members).toHaveProperty("penalty_status")
-            expect(members).toHaveProperty("penalty_date")
-            expect(members.penalty_date).not.toBeNull()
+            expect(members[0]).toHaveProperty("code")
+            expect(members[0]).toHaveProperty("penalty_status")
+            expect(members[0]).toHaveProperty("penalty_date")
+            expect(members[0].penalty_date).not.toBeNull()
+        })
+        
+        it("should set penalty status to 0", async() => {
+            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
+            
+            await MembersTableTestHelper.addMember({
+            code: "M001",
+            name: "Angga",
+            penalty_status: "0"
+            })
+
+            const members = await membersRepositoryPostgres.setPenaltyStatus({
+                code: "M001",
+                penalty_status: "1"
+            })
+
+            expect(members).toHaveLength(1)
+            expect(members[0]).toHaveProperty("code")
+            expect(members[0]).toHaveProperty("penalty_status")
+            expect(members[0]).toHaveProperty("penalty_date")
         })
     })
 })

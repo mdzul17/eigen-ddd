@@ -10,6 +10,7 @@ class MemberRepository {
     async getMembers() {
         throw new Error("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
+    
     async setPenaltyStatus() {
         throw new Error("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
