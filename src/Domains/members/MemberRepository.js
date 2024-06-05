@@ -10,10 +10,6 @@ class MemberRepository {
     async getMembers() {
         throw new Error("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
-
-    async returnsBook(memberid, bookid) {
-        throw new Error("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
-    }
 }
 
 module.exports = MemberRepository

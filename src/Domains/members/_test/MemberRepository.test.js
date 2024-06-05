@@ -9,7 +9,5 @@ describe("MemberRepository", () => {
         await expect(memberRepository.verifyPenalizedStatus("")).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
 
         await expect(memberRepository.getMembers()).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
-
-        await expect(memberRepository.returnsBook("","")).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     })
 })
