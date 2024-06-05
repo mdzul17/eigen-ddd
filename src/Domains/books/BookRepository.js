@@ -19,6 +19,14 @@ class BookRepository {
     async returnsBook(memberid, payload) {
         throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     }
+
+    async checkBorrowedBooksByMember(memberid, payload) {
+        throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+    }
+
+    async checkBorrowingDuration(memberid, payload) {
+        throw new Error("BOOK_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+    }
 }
 
 module.exports = BookRepository

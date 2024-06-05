@@ -5,9 +5,8 @@ describe("MemberRepository", () => {
         const memberRepository = new MemberRepository();
 
         await expect(memberRepository.addMember({})).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
-
         await expect(memberRepository.verifyPenalizedStatus("")).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
-
         await expect(memberRepository.getMembers()).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
+        await expect(memberRepository.setPenaltyStatus()).rejects.toThrowError("MEMBER_REPOSITORY.METHOD_NOT_IMPLEMENTED")
     })
 })
