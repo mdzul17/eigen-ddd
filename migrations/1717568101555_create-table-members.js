@@ -11,6 +11,13 @@ exports.up = pgm => {
         name: {
             type: "VARCHAR(50)",
             notNull: true
+        },
+        penalty_status: {
+            type: "CHAR",
+            default: "0"
+        },
+        penalty_date: {
+            type: "datetime",
         }
     })
 };
