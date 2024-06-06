@@ -3,7 +3,7 @@
 const pool = require("../src/Infrastructures/database/postgres/pool");
 
 const BooksTableTestHelper = {
-  async addBooks({
+  async addBook({
     code = "JK-45",
     title = "Harry Potter",
     author = "J.K Rowling",
@@ -15,6 +15,16 @@ const BooksTableTestHelper = {
     };
 
     await pool.query(query);
+  },
+
+  async findBookById(code) {
+    const query = {
+      text: "SELECT * FROM books WHERE code = $1",
+      values: [code],
+    };
+
+    const res = await pool.query(query);
+    return res.rows[0]
   },
 
   async cleanTable() {

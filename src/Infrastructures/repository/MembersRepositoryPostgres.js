@@ -47,7 +47,8 @@ class MembersRepositoryPostgres extends MembersRepository {
     }
 
     async setPenaltyStatus(payload) {
-        const { code, penalty_status } = payload
+        const code = payload.code
+        const penalty_status = payload.penalty_status || "0"
         let query = ""
 
         if(penalty_status == "0"){

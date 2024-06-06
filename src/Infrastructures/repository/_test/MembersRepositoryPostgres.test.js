@@ -115,8 +115,7 @@ describe("MembersRepositoryPostgres", () => {
             })
 
             const members = await membersRepositoryPostgres.setPenaltyStatus({
-                code: "M001",
-                penalty_status: "0"
+                code: "M001"
             })
 
             expect(members).toHaveLength(1)

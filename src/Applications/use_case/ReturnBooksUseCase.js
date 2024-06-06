@@ -1,4 +1,4 @@
-class BorrowBooksUseCase {
+class ReturnBooksUseCase {
 
     constructor({memberRepository, bookRepository}) {
         this._memberRepository = memberRepository
@@ -20,4 +20,4 @@ class BorrowBooksUseCase {
     }
 }
 
-module.exports = BorrowBooksUseCase
+module.exports = ReturnBooksUseCase
