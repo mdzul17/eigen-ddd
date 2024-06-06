@@ -2,7 +2,7 @@
 
 const pool = require("../src/Infrastructures/database/postgres/pool");
 
-const MembersBooksTableTestHelper = {
+const BooksMembersTableTestHelper = {
   async addMembersBooks({
     code_member = "M001",
     code_book = "JK-45",
@@ -35,4 +35,4 @@ const MembersBooksTableTestHelper = {
   },
 };
 
-module.exports = MembersBooksTableTestHelper;
+module.exports = BooksMembersTableTestHelper;

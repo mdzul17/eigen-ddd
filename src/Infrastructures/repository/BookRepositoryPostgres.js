@@ -1,9 +1,8 @@
 const BooksRepository = require("../../Domains/books/BookRepository")
-const format = require("pg-format")
 const NotFoundError = require("../../Commons/exceptions/NotFoundError")
 const InvariantError = require("../../Commons/exceptions/InvariantError")
 
-class BooksRepositoryPostgres extends BooksRepository{
+class BookRepositoryPostgres extends BooksRepository{
 
     constructor(pool) {
         super()
@@ -152,4 +151,4 @@ class BooksRepositoryPostgres extends BooksRepository{
     }
 }
 
-module.exports = BooksRepositoryPostgres
+module.exports = BookRepositoryPostgres

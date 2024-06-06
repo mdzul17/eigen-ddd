@@ -1,31 +1,31 @@
 const { createContainer } = require("instances-container")
 
 const { nanoid } = require("nanoid")
-const pool = require("./database/postgres")
+const pool = require("./database/postgres/pool")
 
 const MemberRepository = require('../Domains/members/MemberRepository')
 const CheckMembersUseCase = require('../Applications/use_case/CheckMembersUseCase')
-const MembersRepositoryPostgres = require('../Infrastructures/repository/MembersRepositoryPostgres')
+const MemberRepositoryPostgres = require('./repository/MemberRepositoryPostgres')
 
 const BookRepository = require('../Domains/books/BookRepository')
 const BorrowBooksUseCase = require('../Applications/use_case/BorrowBooksUseCase')
 const CheckBooksUseCase = require('../Applications/use_case/CheckBooksUseCase')
 const ReturnBooksUseCase = require('../Applications/use_case/ReturnBooksUseCase')
-const BooksRepositoryPostgres = require("./repository/BooksRepositoryPostgres")
+const BookRepositoryPostgres = require("./repository/BookRepositoryPostgres")
 
 const container = createContainer()
 
 container.register([
     {
-        key: BooksRepository.name,
-        Class: BooksRepositoryPostgres,
+        key: BookRepository.name,
+        Class: BookRepositoryPostgres,
         parameter: {
             dependencies: [{concrete: pool}]
         }
     },
     {
-        key: MembersRepository.name,
-        Class: MembersRepositoryPostgres,
+        key: MemberRepository.name,
+        Class: MemberRepositoryPostgres,
         parameter: {
             dependencies: [{concrete: pool}, {concrete: nanoid}]
         }

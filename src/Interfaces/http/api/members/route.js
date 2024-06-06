@@ -1,9 +1,9 @@
 const express = require("express")
 const Router = express.Router()
-const MemberController = require("./controller")
+const MembersController = require("./controller")
 const container = require("../../../../Infrastructures/container")
 
-const memberController = new MemberController(container)
+const memberController = new MembersController(container)
 
 Router.get('/', memberController.getMembers)
 

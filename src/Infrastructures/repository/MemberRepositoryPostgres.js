@@ -1,8 +1,7 @@
 const InvariantError = require("../../Commons/exceptions/InvariantError")
-const MembersRepository = require("../../Domains/members/MemberRepository")
-const format = require("pg-format")
+const MemberRepository = require("../../Domains/members/MemberRepository")
 
-class MembersRepositoryPostgres extends MembersRepository {
+class MemberRepositoryPostgres extends MemberRepository {
     constructor(pool, idGenerator) {
         super()
         this._pool = pool;
@@ -69,4 +68,4 @@ class MembersRepositoryPostgres extends MembersRepository {
     }
 }
 
-module.exports = MembersRepositoryPostgres
+module.exports = MemberRepositoryPostgres

@@ -1,12 +1,12 @@
 const InvariantError = require("../../../Commons/exceptions/InvariantError");
 const NotFoundError = require("../../../Commons/exceptions/NotFoundError");
 const pool = require("../../database/postgres/pool");
-const BooksRepositoryPostgres = require("../BooksRepositoryPostgres");
+const BookRepositoryPostgres = require("../BookRepositoryPostgres");
 const BooksTableTestHelper = require("../../../../tests/BooksTableTestHelper");
 const MembersTableTestHelper = require("../../../../tests/MembersTableTestHelper");
 const BooksMembersTableTestHelper = require("../../../../tests/BooksMembersTableTestHelper");
 
-describe("BooksRepositoryPostgres", () => {
+describe("BookRepositoryPostgres", () => {
     afterEach(async() => {
         await BooksMembersTableTestHelper.cleanTable();
         await BooksTableTestHelper.cleanTable();
@@ -19,9 +19,9 @@ describe("BooksRepositoryPostgres", () => {
 
     describe("addBook function", () =>{
         it("Should persist add book",  async () => {
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
             
-            await booksRepositoryPostgres.addBook({
+            await bookRepositoryPostgres.addBook({
                 code: "JK-45",
                 title: "Harry Potter",
                 author: "J.K Rowling",
@@ -37,9 +37,9 @@ describe("BooksRepositoryPostgres", () => {
         })
 
         it("Should added book correctly", async() => {
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
             
-            const registeredMember = await booksRepositoryPostgres.addBook({
+            const registeredMember = await bookRepositoryPostgres.addBook({
                 code: "JK-45",
                 title: "Harry Potter",
                 author: "J.K Rowling",
@@ -58,7 +58,7 @@ describe("BooksRepositoryPostgres", () => {
     })
     describe("getBooks function", () =>{
         it("should returns books data", async() => {
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
             
             await BooksTableTestHelper.addBook({
                 code: "JK-45",
@@ -67,7 +67,7 @@ describe("BooksRepositoryPostgres", () => {
                 stock: 1
             })
 
-            const books = await booksRepositoryPostgres.getBooks()
+            const books = await bookRepositoryPostgres.getBooks()
 
             expect(books).toHaveLength(1)
             expect(books[0]).toHaveProperty("code")
@@ -77,8 +77,8 @@ describe("BooksRepositoryPostgres", () => {
         })
 
         it("should return 0 length when no books data", async() => {
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
-            const books = await booksRepositoryPostgres.getBooks()
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
+            const books = await bookRepositoryPostgres.getBooks()
 
             expect(books).toHaveLength(0)
         })
@@ -97,9 +97,9 @@ describe("BooksRepositoryPostgres", () => {
             })
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await expect(booksRepositoryPostgres.verifyBorrowedBooks([{code: "JK-45"}])).rejects.toThrow(InvariantError)
+            await expect(bookRepositoryPostgres.verifyBorrowedBooks([{code: "JK-45"}])).rejects.toThrow(InvariantError)
         })
 
         it("Should not throw error when books is available", async() => {
@@ -110,9 +110,9 @@ describe("BooksRepositoryPostgres", () => {
             await BooksTableTestHelper.addBook({})
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await expect(booksRepositoryPostgres.verifyBorrowedBooks([{code: "NRN-7"}])).resolves.not.toThrow(InvariantError)
+            await expect(bookRepositoryPostgres.verifyBorrowedBooks([{code: "NRN-7"}])).resolves.not.toThrow(InvariantError)
         })
     })
     describe("checkBorrowedBooksByMember function", () =>{
@@ -124,9 +124,9 @@ describe("BooksRepositoryPostgres", () => {
             await BooksTableTestHelper.addBook({})
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await expect(booksRepositoryPostgres.checkBorrowedBooksByMember("M001",[{code: "TW-11"}])).rejects.toThrow(InvariantError)
+            await expect(bookRepositoryPostgres.checkBorrowedBooksByMember("M001",[{code: "TW-11"}])).rejects.toThrow(InvariantError)
         })
         it("Should not throw error when the books are same with borrowed one", async() => {
             await MembersTableTestHelper.addMember({
@@ -136,9 +136,9 @@ describe("BooksRepositoryPostgres", () => {
             await BooksTableTestHelper.addBook({})
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await expect(booksRepositoryPostgres.checkBorrowedBooksByMember("M001",[{code: "JK-45"}])).resolves.not.toThrow(InvariantError)
+            await expect(bookRepositoryPostgres.checkBorrowedBooksByMember("M001",[{code: "JK-45"}])).resolves.not.toThrow(InvariantError)
         })
     })
     describe("borrowBook function", () =>{
@@ -149,9 +149,9 @@ describe("BooksRepositoryPostgres", () => {
             })
             await BooksTableTestHelper.addBook({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            const borrowBook = await booksRepositoryPostgres.borrowBook("M001",[{code: "JK-45"}])
+            const borrowBook = await bookRepositoryPostgres.borrowBook("M001",[{code: "JK-45"}])
 
             expect(borrowBook).toStrictEqual({
                 code_member: "M001",
@@ -166,9 +166,9 @@ describe("BooksRepositoryPostgres", () => {
             })
             await BooksTableTestHelper.addBook({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await booksRepositoryPostgres.borrowBook("M001",[{code: "JK-45"}])
+            await bookRepositoryPostgres.borrowBook("M001",[{code: "JK-45"}])
 
             const checkBorrowedBook = await BooksMembersTableTestHelper.findBorrowedBooks({code_member: "M001", code_book: "JK-45"})
 
@@ -184,9 +184,9 @@ describe("BooksRepositoryPostgres", () => {
             await BooksTableTestHelper.addBook({})
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await expect(booksRepositoryPostgres.returnsBook("M001",[{code: "NRN-7"}])).rejects.toThrow(NotFoundError)
+            await expect(bookRepositoryPostgres.returnsBook("M001",[{code: "NRN-7"}])).rejects.toThrow(NotFoundError)
         })
 
         it("Should not return error when book found", async() => {   
@@ -197,9 +197,9 @@ describe("BooksRepositoryPostgres", () => {
             await BooksTableTestHelper.addBook({})
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            await expect(booksRepositoryPostgres.returnsBook("M001",[{code: "JK-45"}])).resolves.not.toThrow(NotFoundError)
+            await expect(bookRepositoryPostgres.returnsBook("M001",[{code: "JK-45"}])).resolves.not.toThrow(NotFoundError)
         })
     })
     describe("checkBorrowingDuration function", () =>{
@@ -210,9 +210,9 @@ describe("BooksRepositoryPostgres", () => {
             code_book: "JK-45",
             borrow_date: "2021-08-08T07:19:09.775Z"})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            const duration = await booksRepositoryPostgres.checkBorrowingDuration("M001", [{code: "JK-45"}])
+            const duration = await bookRepositoryPostgres.checkBorrowingDuration("M001", [{code: "JK-45"}])
 
             expect(duration[0]).toHaveProperty("duration")
         })
@@ -220,9 +220,9 @@ describe("BooksRepositoryPostgres", () => {
     describe("getCountAllBooks function", () =>{
         it("Should have property quantities and its value 1", async() => {
             await BooksTableTestHelper.addBook({})
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            const counts = await booksRepositoryPostgres.getCountAllBooks()
+            const counts = await bookRepositoryPostgres.getCountAllBooks()
 
             expect(counts).toHaveLength(1)
             expect(counts[0]).toHaveProperty("quantities")
@@ -235,9 +235,9 @@ describe("BooksRepositoryPostgres", () => {
             await BooksTableTestHelper.addBook({})
             await BooksMembersTableTestHelper.addMembersBooks({})
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            const counts = await booksRepositoryPostgres.getCountBorrowedBooks()
+            const counts = await bookRepositoryPostgres.getCountBorrowedBooks()
 
             expect(counts).toHaveLength(1)
             expect(counts[0]).toHaveProperty("quantities")
@@ -285,9 +285,9 @@ describe("BooksRepositoryPostgres", () => {
                 code_book: "TW-11"
             })
 
-            const booksRepositoryPostgres = new BooksRepositoryPostgres(pool)
+            const bookRepositoryPostgres = new BookRepositoryPostgres(pool)
 
-            const counts = await booksRepositoryPostgres.getCountBorrowedBooksByMember()
+            const counts = await bookRepositoryPostgres.getCountBorrowedBooksByMember()
 
             expect(counts).toHaveLength(2)
             expect(counts[0]).toHaveProperty("code_member")

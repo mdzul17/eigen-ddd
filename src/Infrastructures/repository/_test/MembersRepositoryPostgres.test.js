@@ -1,9 +1,9 @@
 const InvariantError = require("../../../Commons/exceptions/InvariantError");
 const pool = require("../../database/postgres/pool");
-const MembersRepositoryPostgres = require("../MembersRepositoryPostgres");
+const MemberRepositoryPostgres = require("../MemberRepositoryPostgres");
 const MembersTableTestHelper = require("../../../../tests/MembersTableTestHelper");
 
-describe("MembersRepositoryPostgres", () => {
+describe("MemberRepositoryPostgres", () => {
     afterEach( async () => {
         await MembersTableTestHelper.cleanTable()
     })
@@ -16,9 +16,9 @@ describe("MembersRepositoryPostgres", () => {
         it("should return added member data", async() => {
             
             const fakeIdGenerator = () => "001"
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, fakeIdGenerator)
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, fakeIdGenerator)
             
-            await membersRepositoryPostgres.addMember({
+            await memberRepositoryPostgres.addMember({
                 name: "Angga"
             })
 
@@ -31,9 +31,9 @@ describe("MembersRepositoryPostgres", () => {
         it("should registered member correctly", async() => {
             
             const fakeIdGenerator = () => "001"
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, fakeIdGenerator)
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, fakeIdGenerator)
             
-            const registeredMember = await membersRepositoryPostgres.addMember({
+            const registeredMember = await memberRepositoryPostgres.addMember({
                 name: "Angga"
             })
 
@@ -48,11 +48,11 @@ describe("MembersRepositoryPostgres", () => {
 
     describe("verifyPenalizedStatus function", () => {
         it("should return penalty status = 0 ", async() => {
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
             
             await MembersTableTestHelper.addMember({code :"M001", name: "Angga"})
 
-            const isPenalty = await membersRepositoryPostgres.verifyPenalizedStatus({
+            const isPenalty = await memberRepositoryPostgres.verifyPenalizedStatus({
                 code: "M001"
             })
 
@@ -60,7 +60,7 @@ describe("MembersRepositoryPostgres", () => {
         })
 
         it("should return penalty status = 1  ", async() => {
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
             
             await MembersTableTestHelper.addMember({code: "M001",
             name: "Angga",
@@ -68,7 +68,7 @@ describe("MembersRepositoryPostgres", () => {
             penalty_date: "2021-08-08T07:19:09.775Z"
         })
 
-            const isPenalty = await membersRepositoryPostgres.verifyPenalizedStatus({
+            const isPenalty = await memberRepositoryPostgres.verifyPenalizedStatus({
                 code: "M001"
             })
 
@@ -78,7 +78,7 @@ describe("MembersRepositoryPostgres", () => {
 
     describe("getMembers function", () => {
         it("should returns members data", async() => {
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
             
             await MembersTableTestHelper.addMember({
             code: "M001",
@@ -87,7 +87,7 @@ describe("MembersRepositoryPostgres", () => {
             penalty_date: "2021-08-08T07:19:09.775Z"
             })
 
-            const members = await membersRepositoryPostgres.getMembers()
+            const members = await memberRepositoryPostgres.getMembers()
 
             expect(members).toHaveLength(1)
             expect(members[0]).toHaveProperty("code")
@@ -97,8 +97,8 @@ describe("MembersRepositoryPostgres", () => {
         })
 
         it("should return 0 length when no members data", async() => {
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
-            const members = await membersRepositoryPostgres.getMembers()
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
+            const members = await memberRepositoryPostgres.getMembers()
 
             expect(members).toHaveLength(0)
         })
@@ -106,7 +106,7 @@ describe("MembersRepositoryPostgres", () => {
 
     describe("setPenaltyStatus function", () => {
         it("should set penalty status to 1", async() => {
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
             
             await MembersTableTestHelper.addMember({
             code: "M001",
@@ -114,7 +114,7 @@ describe("MembersRepositoryPostgres", () => {
             penalty_status: "0"
             })
 
-            const members = await membersRepositoryPostgres.setPenaltyStatus({
+            const members = await memberRepositoryPostgres.setPenaltyStatus({
                 code: "M001"
             })
 
@@ -126,7 +126,7 @@ describe("MembersRepositoryPostgres", () => {
         })
         
         it("should set penalty status to 0", async() => {
-            const membersRepositoryPostgres = new MembersRepositoryPostgres(pool, {})
+            const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
             
             await MembersTableTestHelper.addMember({
             code: "M001",
@@ -134,7 +134,7 @@ describe("MembersRepositoryPostgres", () => {
             penalty_status: "0"
             })
 
-            const members = await membersRepositoryPostgres.setPenaltyStatus({
+            const members = await memberRepositoryPostgres.setPenaltyStatus({
                 code: "M001",
                 penalty_status: "1"
             })
