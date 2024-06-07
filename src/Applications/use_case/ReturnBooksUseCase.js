@@ -9,7 +9,8 @@ class ReturnBooksUseCase {
         await this._bookRepository.checkBorrowedBooksByMember(codeMember, payload)
         
         const duration = await this._bookRepository.checkBorrowingDuration(codeMember, payload)
-        if(duration > 7) {
+        const filteredDuration = duration.filter(elem => elem.duration > 7)
+        if(filteredDuration.length > 0) {
             await this._memberRepository.setPenaltyStatus(codeMember)
         }
 

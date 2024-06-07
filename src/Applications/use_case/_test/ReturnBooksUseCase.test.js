@@ -20,7 +20,7 @@ describe("ReturnBooksUseCase", () => {
         const mockBookRepository =  new BookRepository()
 
         mockBookRepository.checkBorrowedBooksByMember = jest.fn().mockImplementation(() => Promise.resolve(true))
-        mockBookRepository.checkBorrowingDuration = jest.fn().mockImplementation(() => Promise.resolve())
+        mockBookRepository.checkBorrowingDuration = jest.fn().mockImplementation(() => Promise.resolve([]))
         mockBookRepository.returnsBook = jest.fn().mockImplementation(() => Promise.resolve())
 
         const returnBookUseCase = new ReturnBooksUseCase({
@@ -54,7 +54,7 @@ describe("ReturnBooksUseCase", () => {
         const mockBookRepository =  new BookRepository()
 
         mockBookRepository.checkBorrowedBooksByMember = jest.fn().mockImplementation(() => Promise.resolve(true))
-        mockBookRepository.checkBorrowingDuration = jest.fn().mockImplementation(() => Promise.resolve(8))
+        mockBookRepository.checkBorrowingDuration = jest.fn().mockImplementation(() => Promise.resolve([{duration: 8}]))
         mockBookRepository.returnsBook = jest.fn().mockImplementation(() => Promise.resolve())
         mockMemberRepository.setPenaltyStatus = jest.fn().mockImplementation(() => Promise.resolve())
 
