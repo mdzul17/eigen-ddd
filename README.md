@@ -5,15 +5,20 @@ Several tech used such as:
 - BE Framework: NodeJS / Express
 - API Documentation: Swagger
 
+## Install application dependencies
+Before you can run the server, install all the dependencies needed by running:
+
+`npm install`
+
 ## How to run server
 To run the server, run in the terminal:
 
-### npm run dev
+`npm run dev`
 
 ## How to run test
 To run the test, run in the terminal:
 
-### npm run test
+`npm run test`
 
 ## API Documentation
 To get the API documentation, visit:
