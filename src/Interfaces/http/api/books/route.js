@@ -1,9 +1,9 @@
-const express = require("express")
-const Router = express.Router()
-const BooksController = require("./controller")
-const container = require("../../../../Infrastructures/container")
+const express = require("express");
+const Router = express.Router();
+const BooksController = require("./controller");
+const container = require("../../../../Infrastructures/container");
 
-const booksController = new BooksController(container)
+const booksController = new BooksController(container);
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ const booksController = new BooksController(container)
  *             schema:
  *               type: object
  *               properties:
- *                  status: 
+ *                  status:
  *                      type: integer
  *                      description: status code returned
  *                      example: 200
@@ -73,8 +73,7 @@ const booksController = new BooksController(container)
  *                              type: integer
  *                              description: quantities of all books
  */
-Router.get('/', booksController.getBooks)
-
+Router.get("/", booksController.getBooks);
 
 /**
  * @swagger
@@ -105,7 +104,7 @@ Router.get('/', booksController.getBooks)
  *             schema:
  *               type: object
  *               properties:
- *                  status: 
+ *                  status:
  *                      type: integer
  *                      description: status code returned
  *                      example: 201
@@ -126,7 +125,7 @@ Router.get('/', booksController.getBooks)
  *                                        description: code of the book
  *                                        example: JK-45
  */
-Router.post('/borrow', booksController.postBorrow)
+Router.post("/borrow", booksController.postBorrow);
 
 /**
  * @swagger
@@ -170,7 +169,7 @@ Router.post('/borrow', booksController.postBorrow)
  *             schema:
  *               type: object
  *               properties:
- *                  status: 
+ *                  status:
  *                      type: integer
  *                      description: status code returned
  *                      example: 200
@@ -179,6 +178,66 @@ Router.post('/borrow', booksController.postBorrow)
  *                      description: message status
  *                      example: Successfully returned the books
  */
-Router.delete('/return', booksController.delBookReturn)
+Router.delete("/return", booksController.delBookReturn);
 
-module.exports = Router
+/**
+ * @swagger
+ * /books:
+ *   post:
+ *     summary: Adding a book
+ *     tags: [Books]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *              schema:
+ *                    type: object
+ *                    properties:
+ *                                  code:
+ *                                      type: string
+ *                                      description: The code for the book
+ *                                      example: JK-45
+ *                                  title:
+ *                                      type: string
+ *                                      description: The title of the book
+ *                                      example: Harry Potter
+ *                                  author:
+ *                                      type: string
+ *                                      description: The author name
+ *                                      example: J.K Rowling
+ *                                  stock:
+ *                                      type: integer
+ *                                      description: Stock quantity
+ *                                      example: 1
+ *     responses:
+ *       201:
+ *         description: Returning book successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  status:
+ *                      type: integer
+ *                      description: status code returned
+ *                      example: 201
+ *                  data:
+ *                      type: object
+ *                      description: inputted book data
+ *                      properties:
+ *                         code:
+ *                              type: string
+ *                              description: The code for the book
+ *                         title:
+ *                              type: string
+ *                              description: The title of the book
+ *                         author:
+ *                              type: string
+ *                              description: The author name
+ *                         stock:
+ *                              type: integer
+ *                              description: Stock quantity
+ */
+Router.post("/", booksController.postBook);
+
+module.exports = Router;

@@ -6,12 +6,14 @@ const pool = require("./database/postgres/pool")
 const MemberRepository = require('../Domains/members/MemberRepository')
 const CheckMembersUseCase = require('../Applications/use_case/CheckMembersUseCase')
 const MemberRepositoryPostgres = require('./repository/MemberRepositoryPostgres')
+const AddMemberUseCase = require("../Applications/use_case/AddMemberUseCase")
 
 const BookRepository = require('../Domains/books/BookRepository')
 const BorrowBooksUseCase = require('../Applications/use_case/BorrowBooksUseCase')
 const CheckBooksUseCase = require('../Applications/use_case/CheckBooksUseCase')
 const ReturnBooksUseCase = require('../Applications/use_case/ReturnBooksUseCase')
 const BookRepositoryPostgres = require("./repository/BookRepositoryPostgres")
+const AddBookUseCase = require("../Applications/use_case/AddBookUseCase")
 
 const container = createContainer()
 
@@ -90,6 +92,32 @@ container.register([
                     name: 'memberRepository',
                     internal: MemberRepository.name
                 },
+                {
+                    name: 'bookRepository',
+                    internal: BookRepository.name
+                }
+            ]
+        }
+    },
+    {
+        key: AddMemberUseCase.name,
+        Class: AddMemberUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
+                {
+                    name: 'memberRepository',
+                    internal: MemberRepository.name
+                }
+            ]
+        }
+    },
+    {
+        key: AddBookUseCase.name,
+        Class: AddBookUseCase,
+        parameter: {
+            injectType: 'destructuring',
+            dependencies: [
                 {
                     name: 'bookRepository',
                     internal: BookRepository.name

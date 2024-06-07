@@ -47,32 +47,34 @@ describe("MemberRepositoryPostgres", () => {
     })
 
     describe("verifyPenalizedStatus function", () => {
-        it("should return penalty status = 0 ", async() => {
+        it("should throw error when penalty status  = 1 and is still in penalty duration", async() => {
             const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
+            let threeDaysAfter = new Date()
+            let penalty_date = new Date()
+            penalty_date.setDate(threeDaysAfter.getDate() - 1)
             
-            await MembersTableTestHelper.addMember({code :"M001", name: "Angga"})
+            await MembersTableTestHelper.addMember({code :"M001", name: "Angga", penalty_status: "1", penalty_date: penalty_date.toISOString()})
 
-            const isPenalty = await memberRepositoryPostgres.verifyPenalizedStatus({
+            await expect(memberRepositoryPostgres.verifyPenalizedStatus({
                 code: "M001"
-            })
-
-            expect(isPenalty.penalty_status).toStrictEqual("0")
+            })).rejects.toThrow(InvariantError)
         })
 
-        it("should return penalty status = 1  ", async() => {
+        it("should not throw error when penalty status = 1 but not in penalty duration  ", async() => {
             const memberRepositoryPostgres = new MemberRepositoryPostgres(pool, {})
+            let threeDaysAfter = new Date()
+            let penalty_date = new Date()
+            penalty_date.setDate(threeDaysAfter.getDate() - 5)
             
             await MembersTableTestHelper.addMember({code: "M001",
             name: "Angga",
             penalty_status: "1",
-            penalty_date: "2021-08-08T07:19:09.775Z"
+            penalty_date: penalty_date.toISOString()
         })
 
-            const isPenalty = await memberRepositoryPostgres.verifyPenalizedStatus({
+            await expect(memberRepositoryPostgres.verifyPenalizedStatus({
                 code: "M001"
-            })
-
-            expect(isPenalty.penalty_status).toStrictEqual("1")
+            })).resolves.not.toThrow(InvariantError)
         })
     })
 

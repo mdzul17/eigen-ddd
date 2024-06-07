@@ -41,7 +41,7 @@ describe("BorrowBooksUseCase", () => {
 
         expect(mockBookRepository.verifyBorrowedBooks).toHaveBeenCalledWith(bookPayload)
 
-        expect(mockMemberRepository.verifyPenalizedStatus).toHaveBeenCalledWith("M001")
+        expect(mockMemberRepository.verifyPenalizedStatus).toHaveBeenCalledWith({code: "M001"})
 
         expect(mockBookRepository.borrowBook).toHaveBeenCalledWith("M001", bookPayload)
     })

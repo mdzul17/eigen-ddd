@@ -50,4 +50,40 @@ describe("/member endpoint", () => {
             expect(response.body.data.members).toHaveLength(0)
         })
     })
+
+    describe("POST /", () => {
+        it("Should return status code 201", async() => {
+            const payload = {
+                    name: "Angga",
+            }
+    
+            const response = await request(app).post('/api/v1/member').send(payload).set('Accept', 'application/json')
+            
+            expect(response.statusCode).toBe(201);
+            expect(response.body).toBeDefined();
+        })
+
+        it("Should have property code and name", async() => {
+            const payload = {
+                name: "Angga"
+            }
+    
+            const response = await request(app).post('/api/v1/member').send(payload).set('Accept', 'application/json')
+            
+            expect(response.statusCode).toBe(201);
+            expect(response.body.data).toHaveProperty("code");
+            expect(response.body.data).toHaveProperty("name");
+        })
+
+        it("Should return 400 error when sending a bad payload", async() => {
+            const payload = {
+                name: 1,
+            }
+    
+            const response = await request(app).post('/api/v1/member').send(payload).set('Accept', 'application/json')
+            
+            expect(response.statusCode).toBe(400);
+            expect(response.body.message).toEqual("Wrong payload data type! Please check your input!")
+        })
+    })
 })

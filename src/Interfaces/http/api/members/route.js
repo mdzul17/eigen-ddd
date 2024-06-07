@@ -55,4 +55,43 @@ const memberController = new MembersController(container)
 
 Router.get('/', memberController.getMembers)
 
+/**
+ * @swagger
+ * /member:
+ *   post:
+ *     summary: Adding a member
+ *     tags: [Members]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *          application/json:
+ *              schema:
+ *                  type: object
+ *                  properties:
+ *                      name:
+ *                          type: string
+ *     responses:
+ *       201:
+ *         description: Returning book successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  status: 
+ *                      type: integer
+ *                      description: status code returned
+ *                      example: 201
+ *                  data:
+ *                      type: object
+ *                      description: inputted book data
+ *                      properties:
+ *                         code:
+ *                              type: string
+ *                              description: The code of member
+ *                         name:
+ *                              type: string
+ *                              description: Name of member
+ */
+Router.post('/', memberController.postMember)
 module.exports = Router

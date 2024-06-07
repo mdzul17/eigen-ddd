@@ -2,6 +2,7 @@ const autoBind = require("auto-bind")
 const BorrowBooksUseCase = require("../../../../Applications/use_case/BorrowBooksUseCase")
 const ReturnBooksUseCase = require("../../../../Applications/use_case/ReturnBooksUseCase")
 const CheckBooksUseCase = require("../../../../Applications/use_case/CheckBooksUseCase")
+const AddBookUseCase = require("../../../../Applications/use_case/AddBookUseCase")
 
 class BooksController {
     constructor(container) {
@@ -32,6 +33,18 @@ class BooksController {
         await returnBooksUseCase.execute(code, books )
 
         return res.status(200).json({status: 'success'})
+    }
+
+    async postBook(req, res, next) {
+        try {
+            const addBookUseCase = this._container.getInstance(AddBookUseCase.name)
+
+            const addBook = await addBookUseCase.execute(req.body)
+
+            return res.status(201).json({status: 'success', data: addBook})
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

@@ -14,29 +14,20 @@ describe("DomainErrorTranslator", () => {
     );
     expect(
       DomainErrorTranslator.translate(
-        new Error("BORROW_BOOKS_USE_CASE.MEMBER_BEING_PENALIZED")
+        new Error("ADD_MEMBER_USE_CASE.DOES_NOT_MEET_DATA_SPECIFICATION")
       )
     ).toStrictEqual(
       new InvariantError(
-        "Can not borrow! Member currently being penalized!"
+        "Wrong payload data type! Please check your input!"
       )
     );
     expect(
       DomainErrorTranslator.translate(
-        new Error("RETURN_BOOKS_USE_CASE.NOT_BORROWED_BOOKS")
+        new Error("ADD_BOOK_USE_CASE.DOES_NOT_MEET_DATA_SPECIFICATION")
       )
     ).toStrictEqual(
       new InvariantError(
-        "The book is not the same with the borrowed one!"
-      )
-    );
-    expect(
-      DomainErrorTranslator.translate(
-        new Error("BORROW_BOOKS_USE_CASE.BOOK_BEING_BORROWED_BY_OTHERS")
-      )
-    ).toStrictEqual(
-      new InvariantError(
-        "The book being borrowed by others!"
+        "Wrong payload data type! Please check your input!"
       )
     );
   });

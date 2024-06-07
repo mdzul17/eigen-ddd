@@ -104,4 +104,51 @@ describe("/book endpoint", () => {
             expect(response.body).toBeDefined();
         })
     })
+
+    describe("POST /", () => {
+        it("Should return status code 201", async() => {
+            const payload = {
+                    code: "JK-45",
+                    title: "Harry Potter",
+                    author: "J.K Rowling",
+                    stock: 1
+            }
+    
+            const response = await request(app).post('/api/v1/book').send(payload).set('Accept', 'application/json')
+            
+            expect(response.statusCode).toBe(201);
+            expect(response.body).toBeDefined();
+        })
+
+        it("Should have all payload properties", async() => {
+            const payload = {
+                code: "JK-45",
+                title: "Harry Potter",
+                author: "J.K Rowling",
+                stock: 1
+            }
+    
+            const response = await request(app).post('/api/v1/book').send(payload).set('Accept', 'application/json')
+            
+            expect(response.statusCode).toBe(201);
+            expect(response.body.data).toHaveProperty("code");
+            expect(response.body.data).toHaveProperty("title");
+            expect(response.body.data).toHaveProperty("author");
+            expect(response.body.data).toHaveProperty("stock");
+        })
+
+        it("Should return 400 error when sending a bad payload", async() => {
+            const payload = {
+                code: "JK-45",
+                title: "Harry Potter",
+                author: "J.K Rowling",
+                stock: "1"
+            }
+    
+            const response = await request(app).post('/api/v1/book').send(payload).set('Accept', 'application/json')
+            
+            expect(response.statusCode).toBe(400);
+            expect(response.body.message).toEqual("Wrong payload data type! Please check your input!")
+        })
+    })
 })

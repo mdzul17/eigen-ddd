@@ -8,7 +8,7 @@ class BorrowBooksUseCase {
     async execute(codeMember, payload) {
         await this._verifyPayload(payload)
         await this._bookRepository.verifyBorrowedBooks(payload)
-        await this._memberRepository.verifyPenalizedStatus(codeMember)
+        await this._memberRepository.verifyPenalizedStatus({code: codeMember})
         let borrows = await this._bookRepository.borrowBook(codeMember, payload)
 
         return {

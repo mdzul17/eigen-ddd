@@ -26,13 +26,15 @@ class MemberRepositoryPostgres extends MemberRepository {
         const { code } = payload
         
         const query = {
-            text: "SELECT penalty_status FROM members WHERE code = $1",
+            text: "SELECT penalty_status, (NOW()::date - penalty_date) as date_diff FROM members WHERE code = $1",
             values: [code]
         }
 
         const result = await this._pool.query(query)
 
-        return result.rows[0]
+        if(result.rows[0].penalty_status == "1" && (result.rows[0].date_diff.days < 4 || !result.rows[0].date_diff.days)){
+            throw new InvariantError("Still in penalyzed status!")
+        }
     }
 
     async getMembers() {
@@ -51,9 +53,13 @@ class MemberRepositoryPostgres extends MemberRepository {
         let query = ""
 
         if(penalty_status == "0"){
+            let threeDaysAfter = new Date()
+            let penalty_date = new Date()
+            penalty_date.setDate(threeDaysAfter.getDate() + 3)
+            
             query = {
                 text: "UPDATE members SET penalty_status = 1, penalty_date = $2 WHERE code = $1 RETURNING code, penalty_status, penalty_date",
-                values: [code, new Date()]
+                values: [code, penalty_date.toISOString()]
             }
         } else {
             query = {
