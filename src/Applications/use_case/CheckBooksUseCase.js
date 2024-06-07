@@ -1,6 +1,6 @@
 class CheckBooksUseCase {
 
-    constructor(bookRepository) {
+    constructor({bookRepository}) {
         this._bookRepository = bookRepository
     }
 

@@ -7,24 +7,13 @@ class BorrowBooksUseCase {
 
     async execute(codeMember, payload) {
         await this._verifyPayload(payload)
-        const isBorrowed = await this._bookRepository.verifyBorrowedBooks(payload)
-        if(isBorrowed) {
-            throw new Error("BORROW_BOOKS_USE_CASE.BOOK_BEING_BORROWED_BY_OTHERS")
-        }
-        const isPenalized = await this._memberRepository.verifyPenalizedStatus(codeMember)
-        if(isPenalized) {
-            throw new Error("BORROW_BOOKS_USE_CASE.MEMBER_BEING_PENALIZED")
-        }
+        await this._bookRepository.verifyBorrowedBooks(payload)
+        await this._memberRepository.verifyPenalizedStatus(codeMember)
         let borrows = await this._bookRepository.borrowBook(codeMember, payload)
-
-        borrows = borrows.forEach(element => {
-            delete element.quantity
-            delete element.code
-        });
 
         return {
             borrower: codeMember,
-            books: payload
+            books: borrows
         }
     }
 

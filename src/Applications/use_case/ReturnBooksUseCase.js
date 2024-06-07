@@ -6,10 +6,7 @@ class ReturnBooksUseCase {
     }
 
     async execute(codeMember, payload) {
-        const isBorrowed = await this._bookRepository.checkBorrowedBooksByMember(codeMember, payload)
-        if(!isBorrowed) {
-            throw new Error("RETURN_BOOKS_USE_CASE.NOT_BORROWED_BOOKS")
-        }
+        await this._bookRepository.checkBorrowedBooksByMember(codeMember, payload)
         
         const duration = await this._bookRepository.checkBorrowingDuration(codeMember, payload)
         if(duration > 7) {

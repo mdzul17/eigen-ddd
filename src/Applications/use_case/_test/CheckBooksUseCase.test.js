@@ -42,7 +42,7 @@ describe("CheckBooksUseCase", () => {
         mockBookRepository.getCountBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve(0))
         mockBookRepository.getBooks = jest.fn().mockImplementation(() => Promise.resolve(bookPayload))
 
-        const checkBooksUseCase = new CheckBooksUseCase(mockBookRepository)
+        const checkBooksUseCase = new CheckBooksUseCase({bookRepository: mockBookRepository})
 
         const checkBook = await checkBooksUseCase.execute()
 
@@ -126,7 +126,7 @@ describe("CheckBooksUseCase", () => {
         mockBookRepository.getCountBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve(1))
         mockBookRepository.getBooks = jest.fn().mockImplementation(() => Promise.resolve(bookPayload))
 
-        const checkBooksUseCase = new CheckBooksUseCase(mockBookRepository)
+        const checkBooksUseCase = new CheckBooksUseCase({bookRepository: mockBookRepository})
 
         const checkBook = await checkBooksUseCase.execute()
 

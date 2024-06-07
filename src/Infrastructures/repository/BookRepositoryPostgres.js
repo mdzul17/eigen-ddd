@@ -80,10 +80,7 @@ class BookRepositoryPostgres extends BooksRepository{
             return result.rows[0]
         }));
 
-        return {
-            code_member: memberCode,
-            books: insert
-        }
+        return insert
     }
 
     async returnsBook(memberCode, payload) {

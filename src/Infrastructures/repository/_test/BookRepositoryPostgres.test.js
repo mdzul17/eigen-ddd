@@ -153,10 +153,8 @@ describe("BookRepositoryPostgres", () => {
 
             const borrowBook = await bookRepositoryPostgres.borrowBook("M001",[{code: "JK-45"}])
 
-            expect(borrowBook).toStrictEqual({
-                code_member: "M001",
-                books: [{ code_book: "JK-45"}]
-            })
+            expect(borrowBook).toStrictEqual([{ code_book: "JK-45"}]
+            )
         })
 
         it("Should confirm the book succesfully borrowed", async() => {   

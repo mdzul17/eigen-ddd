@@ -6,10 +6,8 @@
   "scripts": {
     "test": "jest --coverage --setupFiles dotenv/config --runInBand",
     "start": "node src/app.js",
-    "start:dev": "jest --setupFiles dotenv/config",
-    "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config --runInBand",
+    "test:watch": "jest --watchAll --coverage --setupFiles dotenv/config --runInBand --detectOpenHandles",
     "migrate": "node-pg-migrate",
-    "migrate:test": "node-pg-migrate -f config/database/test.json",
     "start-dev": "nodemon src/app.js"
   },
   "keywords": [],
@@ -24,7 +22,9 @@
     "instances-container": "^2.0.6",
     "nanoid": "^3.3.7",
     "pg": "^8.11.3",
-    "pg-format": "^1.0.4"
+    "pg-format": "^1.0.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",

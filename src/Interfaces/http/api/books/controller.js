@@ -26,10 +26,10 @@ class BooksController {
     }
 
     async delBookReturn(req, res) {
-        const { code, book } = req.body
+        const { code, books } = req.body
         const returnBooksUseCase = this._container.getInstance(ReturnBooksUseCase.name)
 
-        await returnBooksUseCase.execute(code, book)
+        await returnBooksUseCase.execute(code, books )
 
         return res.status(200).json({status: 'success'})
     }

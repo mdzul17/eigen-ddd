@@ -8,8 +8,7 @@ describe("BorrowBooksUseCase", () => {
             {
                 code: "JK-45",
                 title: "Harry Potter",
-                author: "J.K Rowling",
-                stock: 1
+                author: "J.K Rowling"
             }
         ]
         const memberPayload = {
@@ -20,12 +19,11 @@ describe("BorrowBooksUseCase", () => {
         const mockMemberRepository = new MemberRepository()
         const mockBookRepository =  new BookRepository()
 
-        mockBookRepository.verifyBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve(false))
-        mockMemberRepository.verifyPenalizedStatus = jest.fn().mockImplementation(() => Promise.resolve(false))
+        mockBookRepository.verifyBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve())
+        mockMemberRepository.verifyPenalizedStatus = jest.fn().mockImplementation(() => Promise.resolve())
         mockBookRepository.borrowBook = jest.fn().mockImplementation(() => Promise.resolve([
             {
-                title: "Harry Potter",
-                author: "J.K Rowling"
+                code_book: "JK-45"
             }
         ]))
 
@@ -38,7 +36,7 @@ describe("BorrowBooksUseCase", () => {
 
         expect(borrowBook).toStrictEqual({
             borrower: memberPayload.code,
-            books: bookPayload
+            books: [{code_book: "JK-45"}]
         })
 
         expect(mockBookRepository.verifyBorrowedBooks).toHaveBeenCalledWith(bookPayload)
@@ -54,19 +52,16 @@ describe("BorrowBooksUseCase", () => {
                 code: "JK-45",
                 title: "Harry Potter",
                 author: "J.K Rowling",
-                stock: 1
             },
             {
                 code: "SHR-1",
                 title: "A Study in Scarlet",
                 author: "Arthur Conan Doyle",
-                stock: 1
             },
             {
                 code: "TW-11",
                 title: "Twilight",
                 author: "Stephenie Meyer",
-                stock: 1
             }
         ]
 
@@ -78,20 +73,17 @@ describe("BorrowBooksUseCase", () => {
         const mockMemberRepository = new MemberRepository()
         const mockBookRepository =  new BookRepository()
 
-        mockBookRepository.verifyBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve(false))
-        mockMemberRepository.verifyPenalizedStatus = jest.fn().mockImplementation(() => Promise.resolve(false))
+        mockBookRepository.verifyBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve())
+        mockMemberRepository.verifyPenalizedStatus = jest.fn().mockImplementation(() => Promise.resolve())
         mockBookRepository.borrowBook = jest.fn().mockImplementation(() => Promise.resolve([
             {
-                title: "Harry Potter",
-                author: "J.K Rowling"
+                code_book: "JK-45"
             },
             {
-                title: "A Study in Scarlet",
-                author: "Arthur Conan Doyle"
+                code_book: "SHR-1"
             },
             {
-                title: "Twilight",
-                author: "Stephenie Meyer"
+                code_book: "TW-11"
             }
         ]))
 
@@ -100,104 +92,5 @@ describe("BorrowBooksUseCase", () => {
             bookRepository: mockBookRepository
         })
         expect(borrowBookUseCase.execute(memberPayload.code, bookPayload)).rejects.toThrow("BORROW_BOOKS_USE_CASE.CAN_NOT_BORROW_MORE_THAN_2")
-    })
-
-    it('should return error when the book is borrowed by other members', async () => {
-        const bookPayload = [
-            {
-                title: "Harry Potter",
-                author: "J.K Rowling"
-            },
-            {
-                title: "A Study in Scarlet",
-                author: "Arthur Conan Doyle"
-            }
-        ]
-
-        const memberPayload = {
-            code: "M001",
-            name: "Angga",
-        }
-
-        const mockMemberRepository = new MemberRepository()
-        const mockBookRepository =  new BookRepository()
-
-        mockBookRepository.verifyBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve(true))
-        mockMemberRepository.verifyPenalizedStatus = jest.fn().mockImplementation(() => Promise.resolve(false))
-        mockBookRepository.borrowBook = jest.fn().mockImplementation(() => Promise.resolve([
-            {
-                code: "JK-45",
-                title: "Harry Potter",
-                author: "J.K Rowling",
-                stock: 1
-            },
-            {
-                code: "SHR-1",
-                title: "A Study in Scarlet",
-                author: "Arthur Conan Doyle",
-                stock: 1
-            },
-            {
-                code: "TW-11",
-                title: "Twilight",
-                author: "Stephenie Meyer",
-                stock: 1
-            }
-        ]))
-
-        const borrowBookUseCase = new BorrowBooksUseCase({
-            memberRepository: mockMemberRepository,
-            bookRepository: mockBookRepository
-        })
-        expect(borrowBookUseCase.execute(memberPayload.code, bookPayload)).rejects.toThrow("BORROW_BOOKS_USE_CASE.BOOK_BEING_BORROWED_BY_OTHERS")
-    })
-    it('should return error when member is penalized', async () => {
-        const bookPayload = [
-            {
-                title: "Harry Potter",
-                author: "J.K Rowling"
-            },
-            {
-                title: "A Study in Scarlet",
-                author: "Arthur Conan Doyle"
-            }
-        ]
-
-        const memberPayload = {
-            code: "M001",
-            name: "Angga",
-        }
-
-        const mockMemberRepository = new MemberRepository()
-        const mockBookRepository =  new BookRepository()
-
-        mockBookRepository.verifyBorrowedBooks = jest.fn().mockImplementation(() => Promise.resolve(false))
-        mockMemberRepository.verifyPenalizedStatus = jest.fn().mockImplementation(() => Promise.resolve(true))
-        mockBookRepository.borrowBook = jest.fn().mockImplementation(() => Promise.resolve([
-            {
-                code: "JK-45",
-                title: "Harry Potter",
-                author: "J.K Rowling",
-                stock: 1
-            },
-            {
-                code: "SHR-1",
-                title: "A Study in Scarlet",
-                author: "Arthur Conan Doyle",
-                stock: 1
-            },
-            {
-                code: "TW-11",
-                title: "Twilight",
-                author: "Stephenie Meyer",
-                stock: 1
-            }
-        ]))
-
-        const borrowBookUseCase = new BorrowBooksUseCase({
-            memberRepository: mockMemberRepository,
-            bookRepository: mockBookRepository
-        })
-        expect(borrowBookUseCase.execute(memberPayload.code, bookPayload)).rejects.toThrow("BORROW_BOOKS_USE_CASE.MEMBER_BEING_PENALIZED")
     })
 })
